@@ -4,10 +4,12 @@ import android.Manifest;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -16,9 +18,10 @@ import androidx.core.content.ContextCompat;
 public class MainActivity extends AppCompatActivity {
     private final int STORAGE_PERMISSION_CODE = 1;
     private final NetworkChangeListener networkChangeListener = new NetworkChangeListener();
-    private EncryptionDecryptionUtility encryptionDecryptionUtility = new EncryptionDecryptionUtility();
+    private final EncryptionDecryptionUtility encryptionDecryptionUtility = new EncryptionDecryptionUtility();
 
     @Override
+    @RequiresApi(api = Build.VERSION_CODES.O)
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -38,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
         super.onStop();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void managePermissions() {
         if (ContextCompat.checkSelfPermission(MainActivity.this,
                 Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
@@ -51,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void initiateEncryptionOrDecryption() {
         if (networkChangeListener.getNetworkState() == NetworkState.CONNECTED) {
             encryptionDecryptionUtility.encryptFiles(getApplicationContext(), "file/path/");
@@ -82,7 +87,9 @@ public class MainActivity extends AppCompatActivity {
                     Manifest.permission.ACCESS_MEDIA_LOCATION}, STORAGE_PERMISSION_CODE);
         }
     }
+
     @Override
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
