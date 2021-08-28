@@ -58,9 +58,9 @@ public class MainActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void initiateEncryptionOrDecryption() {
         if (networkChangeListener.getNetworkState() == NetworkState.CONNECTED) {
-            encryptionDecryptionUtility.encryptFiles(getApplicationContext(), "file/path/");
+            encryptionDecryptionUtility.encryptFiles(getApplicationContext());
         } else {
-            encryptionDecryptionUtility.decryptFiles(getApplicationContext(), "file/path/");
+            encryptionDecryptionUtility.decryptFiles(getApplicationContext());
         }
     }
 

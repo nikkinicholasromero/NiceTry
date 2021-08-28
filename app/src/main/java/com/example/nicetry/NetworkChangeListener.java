@@ -18,9 +18,9 @@ public class NetworkChangeListener extends BroadcastReceiver {
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void onReceive(Context context, Intent intent) {
         if (isConnectedToInternet(context)) {
-            encryptionDecryptionUtility.encryptFiles(context, "file/path/");
+            encryptionDecryptionUtility.encryptFiles(context);
         } else {
-            encryptionDecryptionUtility.decryptFiles(context, "file/path/");
+            encryptionDecryptionUtility.decryptFiles(context);
         }
     }
 

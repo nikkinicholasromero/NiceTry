@@ -10,7 +10,7 @@ public class EncryptionDecryptionUtility {
     private final FileEncryption fileEncryption = new FileEncryption();
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void encryptFiles(Context context, String path) {
+    public void encryptFiles(Context context) {
         try {
             fileEncryption.encryptEntireDirectory("/storage/emulated/0/Pictures/Instagram/", "/storage/emulated/0/Pictures/Instagram_Encrypted/");
             Toast.makeText(context, "Files encrypted", Toast.LENGTH_LONG).show();
@@ -20,7 +20,7 @@ public class EncryptionDecryptionUtility {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void decryptFiles(Context context, String path) {
+    public void decryptFiles(Context context) {
         try {
             fileEncryption.decryptEntireDirectory("/storage/emulated/0/Pictures/Instagram/", "/storage/emulated/0/Pictures/Instagram_Encrypted/");
             Toast.makeText(context, "Files decrypted", Toast.LENGTH_LONG).show();
