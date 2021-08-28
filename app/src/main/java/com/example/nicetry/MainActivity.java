@@ -16,6 +16,7 @@ import androidx.core.content.ContextCompat;
 public class MainActivity extends AppCompatActivity {
     private final int STORAGE_PERMISSION_CODE = 1;
     private final NetworkChangeListener networkChangeListener = new NetworkChangeListener();
+    private EncryptionDecryptionUtility encryptionDecryptionUtility = new EncryptionDecryptionUtility();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,9 +53,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void initiateEncryptionOrDecryption() {
         if (networkChangeListener.getNetworkState() == NetworkState.CONNECTED) {
-            Toast.makeText(getApplicationContext(), "Network connected", Toast.LENGTH_SHORT).show();
+            encryptionDecryptionUtility.encryptFiles(getApplicationContext(), "file/path/");
         } else {
-            Toast.makeText(getApplicationContext(), "Network connected", Toast.LENGTH_SHORT).show();
+            encryptionDecryptionUtility.decryptFiles(getApplicationContext(), "file/path/");
         }
     }
 

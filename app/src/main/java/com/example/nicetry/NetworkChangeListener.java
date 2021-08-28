@@ -9,15 +9,14 @@ import android.widget.Toast;
 
 public class NetworkChangeListener extends BroadcastReceiver {
     private NetworkState networkState = NetworkState.NOT_DETECTED;
+    private EncryptionDecryptionUtility encryptionDecryptionUtility = new EncryptionDecryptionUtility();
 
     @Override
     public void onReceive(Context context, Intent intent) {
         if (isConnectedToInternet(context)) {
-            networkState = networkState.CONNECTED;
-            Toast.makeText(context, "Network connected", Toast.LENGTH_SHORT).show();
+            encryptionDecryptionUtility.encryptFiles(context, "file/path/");
         } else {
-            networkState = networkState.DISCONNECTED;
-            Toast.makeText(context, "Network disconnected", Toast.LENGTH_SHORT).show();
+            encryptionDecryptionUtility.decryptFiles(context, "file/path/");
         }
     }
 
