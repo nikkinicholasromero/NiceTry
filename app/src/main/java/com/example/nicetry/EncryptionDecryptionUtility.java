@@ -12,7 +12,7 @@ public class EncryptionDecryptionUtility {
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void encryptFiles(Context context) {
         try {
-            fileEncryption.encryptEntireDirectory("/storage/emulated/0/Pictures/Instagram/", "/storage/emulated/0/Pictures/Instagram_Encrypted/");
+            fileEncryption.encryptEntireDirectory("/storage/emulated/0/Pictures/Instagram/");
             Toast.makeText(context, "Files encrypted", Toast.LENGTH_LONG).show();
         } catch (Exception e) {
             Toast.makeText(context, "Something went wrong. Encryption failed. ", Toast.LENGTH_LONG).show();
@@ -22,7 +22,7 @@ public class EncryptionDecryptionUtility {
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void decryptFiles(Context context) {
         try {
-            fileEncryption.decryptEntireDirectory("/storage/emulated/0/Pictures/Instagram/", "/storage/emulated/0/Pictures/Instagram_Encrypted/");
+            fileEncryption.decryptEntireDirectory("/storage/emulated/0/Pictures/Instagram/");
             Toast.makeText(context, "Files decrypted", Toast.LENGTH_LONG).show();
         } catch (Exception e) {
             Toast.makeText(context, "Something went wrong. Decryption failed. ", Toast.LENGTH_LONG).show();
