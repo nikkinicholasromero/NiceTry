@@ -30,26 +30,30 @@ public class FileEncryption {
     private static final int SALT_LENGTH_BYTE = 16;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void encryptEntireDirectory(String originalFolder, String encryptedFolder) throws Exception {
-        Path galleryFolderPath = Paths.get(originalFolder);
+    public void encryptEntireDirectory(String targetDirectory) throws Exception {
+        Path galleryFolderPath = Paths.get(targetDirectory);
 
         DirectoryStream<Path> directoryStream = Files.newDirectoryStream(galleryFolderPath);
         for (Path galleryFolderFile : directoryStream) {
-            String fromFile = originalFolder + "" + galleryFolderFile.getFileName();
-            String toFile = encryptedFolder + "" + galleryFolderFile.getFileName();
-            encryptFile(fromFile, toFile, PASSWORD);
+            if (!galleryFolderFile.getFileName().toString().endsWith(".bak")) {
+                String fromFile = targetDirectory + "" + galleryFolderFile.getFileName();
+                String toFile = targetDirectory + "" + galleryFolderFile.getFileName() + ".bak";
+                encryptFile(fromFile, toFile, PASSWORD);
+            }
         }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void decryptEntireDirectory(String originalFolder, String encryptedFolder) throws Exception {
-        Path galleryFolderPath = Paths.get(encryptedFolder);
+    public void decryptEntireDirectory(String targetDirectory) throws Exception {
+        Path galleryFolderPath = Paths.get(targetDirectory);
 
         DirectoryStream<Path> directoryStream = Files.newDirectoryStream(galleryFolderPath);
         for (Path galleryFolderFile : directoryStream) {
-            String fromFile = originalFolder + "" + galleryFolderFile.getFileName();
-            String toFile = encryptedFolder + "" + galleryFolderFile.getFileName();
-            decryptFile(fromFile, toFile, PASSWORD);
+            if (galleryFolderFile.getFileName().toString().endsWith(".bak")) {
+                String fromFile = targetDirectory + "" + galleryFolderFile.getFileName().toString().replace(".bak", "");
+                String toFile = targetDirectory + "" + galleryFolderFile.getFileName();
+                decryptFile(fromFile, toFile, PASSWORD);
+            }
         }
     }
 
