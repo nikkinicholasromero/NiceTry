@@ -38,7 +38,7 @@ public class FileEncryption {
             if (!galleryFolderFile.getFileName().toString().endsWith(".bak")) {
                 String fromFile = targetDirectory + "" + galleryFolderFile.getFileName();
                 String toFile = targetDirectory + "" + galleryFolderFile.getFileName() + ".bak";
-                encryptFile(fromFile, toFile, PASSWORD);
+                encryptFile(fromFile, toFile);
             }
         }
     }
@@ -52,15 +52,15 @@ public class FileEncryption {
             if (galleryFolderFile.getFileName().toString().endsWith(".bak")) {
                 String fromFile = targetDirectory + "" + galleryFolderFile.getFileName().toString().replace(".bak", "");
                 String toFile = targetDirectory + "" + galleryFolderFile.getFileName();
-                decryptFile(fromFile, toFile, PASSWORD);
+                decryptFile(fromFile, toFile);
             }
         }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    private void encryptFile(String fromFile, String toFile, String password) throws Exception {
+    private void encryptFile(String fromFile, String toFile) throws Exception {
         byte[] fileContent = Files.readAllBytes(Paths.get(fromFile));
-        byte[] encryptedText = encrypt(fileContent, password);
+        byte[] encryptedText = encrypt(fileContent);
         Path path = Paths.get(toFile);
         Files.write(path, encryptedText);
 
@@ -71,8 +71,8 @@ public class FileEncryption {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    private void decryptFile(String fromFile, String toFile, String password) throws Exception {
-        byte[] encryptedText = decryptFile(toFile, password);
+    private void decryptFile(String fromFile, String toFile) throws Exception {
+        byte[] encryptedText = decryptFile(toFile);
         Path path = Paths.get(fromFile);
         Files.write(path, encryptedText);
         File file = new File(toFile);
@@ -82,15 +82,15 @@ public class FileEncryption {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    private byte[] decryptFile(String fromEncryptedFile, String password) throws Exception {
+    private byte[] decryptFile(String fromEncryptedFile) throws Exception {
         byte[] fileContent = Files.readAllBytes(Paths.get(fromEncryptedFile));
-        return decrypt(fileContent, password);
+        return decrypt(fileContent);
     }
 
-    private byte[] encrypt(byte[] pText, String password) throws Exception {
+    private byte[] encrypt(byte[] pText) throws Exception {
         byte[] salt = getRandomNonce(SALT_LENGTH_BYTE);
         byte[] iv = getRandomNonce(IV_LENGTH_BYTE);
-        SecretKey aesKeyFromPassword = getAESKeyFromPassword(password.toCharArray(), salt);
+        SecretKey aesKeyFromPassword = getAESKeyFromPassword(PASSWORD.toCharArray(), salt);
         Cipher cipher = Cipher.getInstance(ENCRYPT_ALGO);
         cipher.init(Cipher.ENCRYPT_MODE, aesKeyFromPassword, new GCMParameterSpec(TAG_LENGTH_BIT, iv));
         byte[] cipherText = cipher.doFinal(pText);
@@ -102,7 +102,7 @@ public class FileEncryption {
                 .array();
     }
 
-    private byte[] decrypt(byte[] cText, String password) throws Exception {
+    private byte[] decrypt(byte[] cText) throws Exception {
         ByteBuffer bb = ByteBuffer.wrap(cText);
 
         byte[] iv = new byte[12];
@@ -114,7 +114,7 @@ public class FileEncryption {
         byte[] cipherText = new byte[bb.remaining()];
         bb.get(cipherText);
 
-        SecretKey aesKeyFromPassword = getAESKeyFromPassword(password.toCharArray(), salt);
+        SecretKey aesKeyFromPassword = getAESKeyFromPassword(PASSWORD.toCharArray(), salt);
         Cipher cipher = Cipher.getInstance(ENCRYPT_ALGO);
         cipher.init(Cipher.DECRYPT_MODE, aesKeyFromPassword, new GCMParameterSpec(TAG_LENGTH_BIT, iv));
 

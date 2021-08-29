@@ -1,12 +1,11 @@
-In-Progress
-- Design GUI
-
-TODO (August 29)
-- Fix decryption issue
-- Fix files not being detected in Gallery
+In Progress (August 29)
 - Implement multiple directory encryption
 
 TODO (August 30)
-Backlog
 - Add encryption/decryption icon
 - Add logo
+
+TODO (TBD)
+- Registration
+- Login
+- Backup
