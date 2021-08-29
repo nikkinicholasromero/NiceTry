@@ -1,11 +1,16 @@
-In Progress (August 29)
-- Add loading indicator
-
 TODO (August 30)
-- Add encryption/decryption icon
-- Add logo
+- Add loading indicator
+- Add encryption/decryption icon (padlock)
+- Add logo (padlock)
 
-TODO (TBD)
-- Registration
-- Login
-- Backup
+TODO (TBD) - (Backend)
+- Android Registration
+- Android Login
+- Android Backup
+- Server Registration Endpoint
+- Server Login Endpoint
+- Website Login Page
+- Website Files Restore Page
+- Server Files Restore Endpoint
+- Database Design/Implementation
+- File Storage
