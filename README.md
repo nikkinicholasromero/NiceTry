@@ -1,5 +1,5 @@
 In Progress (August 29)
-- Implement multiple directory encryption
+- Add loading indicator
 
 TODO (August 30)
 - Add encryption/decryption icon
