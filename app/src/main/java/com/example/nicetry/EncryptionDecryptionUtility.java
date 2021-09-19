@@ -24,7 +24,7 @@ public class EncryptionDecryptionUtility {
             }
             Toast.makeText(context, "Files encrypted", Toast.LENGTH_LONG).show();
         } catch (Exception e) {
-            Toast.makeText(context, "Something went wrong. Encryption failed. ", Toast.LENGTH_LONG).show();
+        //    Toast.makeText(context, "Something went wrong. Encryption failed. ", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -36,7 +36,7 @@ public class EncryptionDecryptionUtility {
             }
             Toast.makeText(context, "Files decrypted", Toast.LENGTH_LONG).show();
         } catch (Exception e) {
-            Toast.makeText(context, "Something went wrong. Decryption failed. ", Toast.LENGTH_LONG).show();
+            //Toast.makeText(context, "Something went wrong. Decryption failed. ", Toast.LENGTH_LONG).show();
         }
     }
 }
