@@ -1,5 +1,4 @@
 TODO (August 30)
-- Add encryption and decryption dialog
 - Add loading indicator
 - Add encryption/decryption icon (padlock)
 - Add logo (padlock)

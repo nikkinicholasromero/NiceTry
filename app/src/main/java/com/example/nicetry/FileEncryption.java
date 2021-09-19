@@ -30,30 +30,37 @@ public class FileEncryption {
     private static final int SALT_LENGTH_BYTE = 16;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void encryptEntireDirectory(String targetDirectory) throws Exception {
-        Path galleryFolderPath = Paths.get(targetDirectory);
-
-        DirectoryStream<Path> directoryStream = Files.newDirectoryStream(galleryFolderPath);
-        for (Path galleryFolderFile : directoryStream) {
-            if (!galleryFolderFile.getFileName().toString().endsWith(".bak")) {
-                String fromFile = targetDirectory + "" + galleryFolderFile.getFileName();
-                String toFile = targetDirectory + "" + galleryFolderFile.getFileName() + ".bak";
-                encryptFile(fromFile, toFile);
+    public void encryptEntireDirectory(String targetDirectory) {
+        try {
+            Path galleryFolderPath = Paths.get(targetDirectory);
+            DirectoryStream<Path> directoryStream = Files.newDirectoryStream(galleryFolderPath);
+            for (Path galleryFolderFile : directoryStream) {
+                if (!galleryFolderFile.getFileName().toString().endsWith(".bak")) {
+                    String fromFile = targetDirectory + "" + galleryFolderFile.getFileName();
+                    String toFile = targetDirectory + "" + galleryFolderFile.getFileName() + ".bak";
+                    encryptFile(fromFile, toFile);
+                }
             }
+        } catch (Exception e) {
+            System.out.println("Something went wrong: " + e);
         }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void decryptEntireDirectory(String targetDirectory) throws Exception {
-        Path galleryFolderPath = Paths.get(targetDirectory);
+    public void decryptEntireDirectory(String targetDirectory) {
+        try {
+            Path galleryFolderPath = Paths.get(targetDirectory);
 
-        DirectoryStream<Path> directoryStream = Files.newDirectoryStream(galleryFolderPath);
-        for (Path galleryFolderFile : directoryStream) {
-            if (galleryFolderFile.getFileName().toString().endsWith(".bak")) {
-                String fromFile = targetDirectory + "" + galleryFolderFile.getFileName().toString().replace(".bak", "");
-                String toFile = targetDirectory + "" + galleryFolderFile.getFileName();
-                decryptFile(fromFile, toFile);
+            DirectoryStream<Path> directoryStream = Files.newDirectoryStream(galleryFolderPath);
+            for (Path galleryFolderFile : directoryStream) {
+                if (galleryFolderFile.getFileName().toString().endsWith(".bak")) {
+                    String fromFile = targetDirectory + "" + galleryFolderFile.getFileName().toString().replace(".bak", "");
+                    String toFile = targetDirectory + "" + galleryFolderFile.getFileName();
+                    decryptFile(fromFile, toFile);
+                }
             }
+        } catch (Exception e) {
+            System.out.println("Something went wrong: " + e);
         }
     }
 

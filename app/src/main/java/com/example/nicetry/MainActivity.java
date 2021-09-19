@@ -6,7 +6,6 @@ import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -18,21 +17,17 @@ import androidx.core.content.ContextCompat;
 public class MainActivity extends AppCompatActivity {
     private final int STORAGE_PERMISSION_CODE = 1;
     private final NetworkChangeListener networkChangeListener = new NetworkChangeListener();
-    private final EncryptionDecryptionUtility encryptionDecryptionUtility = new EncryptionDecryptionUtility();
 
     @Override
     @RequiresApi(api = Build.VERSION_CODES.O)
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         managePermissions();
-    }
 
-    @Override
-    protected void onStart() {
         IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
         registerReceiver(networkChangeListener, filter);
-        super.onStart();
+
+        super.onCreate(savedInstanceState);
     }
 
     @Override
@@ -45,29 +40,18 @@ public class MainActivity extends AppCompatActivity {
     private void managePermissions() {
         if (ContextCompat.checkSelfPermission(MainActivity.this,
                 Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
-            ContextCompat.checkSelfPermission(MainActivity.this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
-            ContextCompat.checkSelfPermission(MainActivity.this,
-                    Manifest.permission.ACCESS_MEDIA_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                ContextCompat.checkSelfPermission(MainActivity.this,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(MainActivity.this,
+                        Manifest.permission.ACCESS_MEDIA_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             requestStoragePermission();
-        } else {
-            initiateEncryptionOrDecryption();
-        }
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    private void initiateEncryptionOrDecryption() {
-        if (networkChangeListener.getNetworkState() == NetworkState.CONNECTED) {
-            encryptionDecryptionUtility.encryptFiles(getApplicationContext());
-        } else {
-            encryptionDecryptionUtility.decryptFiles(getApplicationContext());
         }
     }
 
     private void requestStoragePermission() {
         if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE) ||
-            ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) ||
-            ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_MEDIA_LOCATION)) {
+                ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) ||
+                ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_MEDIA_LOCATION)) {
             new AlertDialog.Builder(this)
                     .setTitle("Permission needed")
                     .setMessage("This app needs access to your storage to encrypt your photos")
@@ -95,8 +79,6 @@ public class MainActivity extends AppCompatActivity {
 
         if (!(requestCode == STORAGE_PERMISSION_CODE && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
             System.exit(0);
-        } else {
-            initiateEncryptionOrDecryption();
         }
     }
 }

@@ -6,12 +6,10 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
-import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 
 public class NetworkChangeListener extends BroadcastReceiver {
-    private NetworkState networkState = NetworkState.NOT_DETECTED;
     private final EncryptionDecryptionUtility encryptionDecryptionUtility = new EncryptionDecryptionUtility();
 
     @Override
@@ -24,10 +22,6 @@ public class NetworkChangeListener extends BroadcastReceiver {
         }
     }
 
-    public NetworkState getNetworkState() {
-        return networkState;
-    }
-
     private boolean isConnectedToInternet(Context context) {
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
@@ -36,14 +30,12 @@ public class NetworkChangeListener extends BroadcastReceiver {
             if (info != null) {
                 for (NetworkInfo networkInfo : info) {
                     if (networkInfo.getState() == NetworkInfo.State.CONNECTED) {
-                        networkState = NetworkState.CONNECTED;
                         return true;
                     }
                 }
             }
         }
 
-        networkState = NetworkState.DISCONNECTED;
         return false;
     }
 }
