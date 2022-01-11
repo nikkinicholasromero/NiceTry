@@ -11,6 +11,9 @@ interface RetrofitAPI {
     @POST("service/register")
     Call<ResponseBody> register(@Body User user);
 
+    @POST("service/authenticate")
+    Call<ResponseBody> authenticate(@Body User user);
+
     @POST("service/upload/${username}")
     Call<ResponseBody> uploadAttachment(@Path("") String name, @Part MultipartBody.Part file);
 }

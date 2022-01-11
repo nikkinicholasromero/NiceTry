@@ -20,7 +20,6 @@ import androidx.core.content.ContextCompat;
 public class MainActivity extends AppCompatActivity {
     private final int STORAGE_PERMISSION_CODE = 1;
     private final NetworkChangeListener networkChangeListener = new NetworkChangeListener();
-    private SharedPreferences sharedPreferences;
 
     @Override
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -94,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private boolean isLoggedIn() {
-        sharedPreferences = getSharedPreferences("NICE_TRY", MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences("NICE_TRY", MODE_PRIVATE);
         String user = sharedPreferences.getString("user", "");
         return !"".equals(user);
     }
