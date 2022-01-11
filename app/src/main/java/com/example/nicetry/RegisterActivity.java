@@ -11,6 +11,10 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.gson.Gson;
+
+import java.io.IOException;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -85,9 +89,19 @@ public class RegisterActivity extends AppCompatActivity {
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                Toast.makeText(RegisterActivity.this, "Registration successful. ", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                startActivity(intent);
+                if (response.isSuccessful()) {
+                    Toast.makeText(RegisterActivity.this, "Registration successful. ", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                } else {
+                    ResponseBody responseBody = null;
+                    try {
+                        responseBody = new Gson().fromJson(response.errorBody().string(), ResponseBody.class);
+                        Toast.makeText(RegisterActivity.this, responseBody.getMessage(), Toast.LENGTH_LONG).show();
+                    } catch (IOException e) {
+                        Toast.makeText(RegisterActivity.this, "Something went wrong. Please try again. ", Toast.LENGTH_LONG).show();
+                    }
+                }
             }
 
             @Override
