@@ -15,6 +15,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.NiceTry">
+        android:name="com.example.nicetry.MyApplication"
         <activity
             android:name=".MainActivity"
             android:exported="true">

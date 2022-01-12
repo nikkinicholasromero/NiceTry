@@ -40,8 +40,12 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onStop() {
-        if (isLoggedIn()) {
-            unregisterReceiver(networkChangeListener);
+        try {
+            if (isLoggedIn()) {
+                unregisterReceiver(networkChangeListener);
+            }
+        } catch (Exception e) {
+            System.out.println("Something went wrong. ");
         }
         super.onStop();
     }
@@ -95,6 +99,10 @@ public class MainActivity extends AppCompatActivity {
     private boolean isLoggedIn() {
         SharedPreferences sharedPreferences = getSharedPreferences("NICE_TRY", MODE_PRIVATE);
         String user = sharedPreferences.getString("user", "");
-        return !"".equals(user);
+        boolean isLoggedIn = !"".equals(user);
+        if (isLoggedIn) {
+            MyApplication.user = user;
+        }
+        return isLoggedIn;
     }
 }

@@ -82,6 +82,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     Toast.makeText(LoginActivity.this, "Login successful. ", Toast.LENGTH_LONG).show();
 
+                    MyApplication.user = username;
                     SharedPreferences sharedPreferences = getSharedPreferences("NICE_TRY", MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString("user", username);

