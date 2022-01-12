@@ -70,7 +70,7 @@ public class FileEncryption {
         MultipartBody.Part multipartFile = MultipartBody.Part.createFormData("file", file, filePart);
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.1.16:3000/")
+                .baseUrl(MyApplication.BACKEND_BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);

@@ -68,7 +68,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void login(String username, String password) {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.1.16:3000/")
+                .baseUrl(MyApplication.BACKEND_BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
