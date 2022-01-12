@@ -1,17 +1,10 @@
 package com.example.nicetry;
 
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Build;
-import android.os.FileUtils;
-import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 
-import com.google.gson.Gson;
-
 import java.io.File;
-import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
@@ -74,21 +67,23 @@ public class FileEncryption {
     private void upload(String file) {
         RequestBody descriptionPart = RequestBody.create(MultipartBody.FORM, file);
         RequestBody filePart = RequestBody.create(MediaType.parse("multipart/form-data"), new File(file));
-        MultipartBody.Part multipartFile = MultipartBody.Part.createFormData("file", file,filePart);
+        MultipartBody.Part multipartFile = MultipartBody.Part.createFormData("file", file, filePart);
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://192.168.1.16:3000/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-        Call<ResponseBody> call = retrofitAPI.upload("", descriptionPart, multipartFile);
-        call.enqueue(new Callback<ResponseBody>() {
+        Call<okhttp3.ResponseBody> call = retrofitAPI.upload(MyApplication.user, descriptionPart, multipartFile);
+        call.enqueue(new Callback<okhttp3.ResponseBody>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            public void onResponse(Call<okhttp3.ResponseBody> call, Response<okhttp3.ResponseBody> response) {
+                System.out.println(response);
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(Call<okhttp3.ResponseBody> call, Throwable t) {
+                System.out.println("Something went wrong during file upload: " + t);
             }
         });
     }
